@@ -1,0 +1,543 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap');
+
+body {
+    width: 100%;
+    font-family: 'Montserrat', sans-serif;
+    background-color: #f5f5f5; /* Светло-серый фон */
+    color: #333; /* Темно-серый текст */
+    margin: 0; /* Убираем отступы по умолчанию */
+    display: flex;
+}
+
+.MainContainer{
+    position : absolute;
+    padding-top: 64px;
+    width: 740px;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.MobileSectionGrid{
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.NavPanelBubbleContainer {
+    background-color: #fff; /* Белый фон */
+    border-radius: 12px;
+    /*box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Мягкая тень */
+    width: 100%;
+    height: 80px;
+    text-align: center;
+    display: grid;
+    grid-template-columns: 33% 34% 33%; 
+    justify-content: center;
+    align-items: center;
+}
+
+.ListButton {
+    width: 288px; /* Ширина кнопки на 100% от родителя */
+    height: 48px;
+    margin: 10px 0; /* Внешние отступы */
+    padding-right: 8px;
+    padding-left: 8px;
+    background-color: #f7f7f7; /* Темно-серый фон */
+    color: #000000; /* Белый текст */
+    border: none;
+    border-radius: 10px; /* Скругление углов */
+    cursor: pointer;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px; /* Размер шрифта */
+    transition: background-color 0.3s ease; /* Плавное изменение цвета */
+    font-family: 'Montserrat', sans-serif;
+  }
+
+.hrefTextMain {
+    text-decoration: none;
+    font-family: 'Montserrat', sans-serif;
+    color: #3e61ff; /* Серый текст */
+    font-size: 12px; /* Размер шрифта */
+    font-weight: 600;
+    margin: 20px 0 20px 0; /* Уменьшаем отступы: сверху 0, справа 0, снизу 20px, слева 0 */
+    border: none;
+    background: none;
+    cursor: pointer;
+  }
+
+.NavPanelButton {
+    font-family: 'Montserrat', sans-serif;
+    border-width: 0px;
+    background-color: #fff; /* Белый фон */
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    font-weight: 600;
+    color: #80889C;
+}
+
+.NavPanelButton-active {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #fff; /* Белый фон */
+    justify-content: center;
+    align-items: center;
+    border-width: 0px;
+    font-size: 16px;
+    color: #9747FF;
+    font-weight: 600;
+}
+
+.AccountStatsContainer {
+    height: 108px;
+    background-color: #fff; /* Белый фон */
+    border-radius: 12px;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+.TransactionsContainer {
+    background-color: #fff; /* Белый фон */
+    text-align: center;
+    border-radius: 12px;
+    justify-content: center;
+    align-items: center;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+.StatsContainer {
+    height: 614px;
+    background-color: #fff; /* Белый фон */
+    border-radius: 12px;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+.StatisticsFullContainer {
+    width: 400px;
+    background-color: #fff; /* Белый фон */
+    text-align: center;
+    border-radius: 12px;
+    justify-content: center;
+    align-items: center;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+.StatisticsCroppedContainer {
+    width: 100%;
+    height: 200px;
+    background-color: #fff; /* Белый фон */
+    text-align: center;
+    border-radius: 12px;
+    justify-content: center;
+    align-items: center;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+.AddAccountButton {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #fff; /* Белый фон */
+    border-radius: 12px;
+    display: grid;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    margin-left: 16px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    border: none;
+}
+
+.HorizontalGrid6535
+{
+    width: 100%;
+    display: grid;
+    grid-template-columns: 60% 40%; 
+}
+
+.HorizontalGridAddCategory
+{
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: row; /* Элементы в колонку */
+}
+
+.ImgBox
+{
+    width: 36px;
+    height: 36px;
+    padding-top: 10px;
+    padding-bottom: 16px;
+    margin-right: 0px;
+    margin-left: 0px;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.HorizontalGridCategories
+{
+    width: 100%;
+    display: grid;
+    grid-template-columns: 20% 70% 10%; 
+}
+
+
+.HorizontalGridAccountInfo
+{
+    width: 100%;
+    display: grid;
+    grid-template-columns: 20% 60% 20%; 
+}
+
+.HorizontalGrid5050
+{
+    align-items:top;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 70% 30%; 
+    padding-top: 8px;
+}
+
+.ListButtonGrid
+{
+    align-items:top;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 5% 45% 20% 20% 10%; 
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.AdaptiveGrid
+{
+    width: 100%;
+    display: flex;
+    grid-template-columns: 50% 50%; 
+    padding-top: 8px;
+    gap: 16px;
+}
+
+.VerticalGrid
+{
+    display: flex;
+    flex-direction: column; /* Элементы в колонку */
+    text-align: left;
+    justify-content: left;
+    align-items: left;
+}
+
+.VerticalGridCentered
+{
+    display: flex;
+    flex-direction: column; /* Элементы в колонку */
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.CategoriesGrid
+{
+    border: 0px solid #ccc;
+    display: flex;
+    flex-direction: column; /* Элементы в колонку */
+    text-align: left;
+    justify-content: left;
+    align-items: left;
+    gap: 16px;
+    width: 300px; /* Фиксированная ширина контейнера */
+}
+
+.TransactionsGrid
+{
+    border: 0px solid #ccc;
+    height: 400px;
+    display: flex;
+    flex-direction: column; /* Элементы в колонку */
+    text-align: left;
+    justify-content: left;
+    align-items: left;
+    gap: 16px;
+}
+
+.TransactionsFullGrid
+{
+    border: 0px solid #ccc;
+    display: flex;
+    flex-direction: column; /* Элементы в колонку */
+    text-align: left;
+    justify-content: left;
+    align-items: left;
+    gap: 16px;
+    padding-left: 16px;
+    padding-right: 16px;
+}
+
+.AccountsFullGrid
+{
+    border: 0px solid #ccc;
+    display: flex;
+    flex-direction: column; /* Элементы в колонку */
+    text-align: left;
+    justify-content: left;
+    align-items: left;
+    gap: 16px;
+    padding-left: 16px;
+    padding-right: 16px;
+}
+
+.CategoriesButton
+{
+    width: 288px; /* Ширина кнопки на 100% от родителя */
+    height: 48px;
+    background-color: #ffffff; /* Темно-серый фон */
+    color: #000000; /* Белый текст */
+    border: none;
+    border-radius: 10px; /* Скругление углов */
+    cursor: pointer;
+    font-size: 12px; /* Размер шрифта */
+    transition: background-color 0.3s ease; /* Плавное изменение цвета */
+    font-family: 'Montserrat', sans-serif;
+    white-space: nowrap; /* Запрещаем перенос текста */
+    overflow: hidden; /* Скрываем текст, выходящий за пределы */
+    text-overflow: ellipsis; /* Добавляем многоточие */
+    margin-top: 8px;
+    text-align: center;
+}
+
+.AccountsButton
+{
+    width: 288px; /* Ширина кнопки на 100% от родителя */
+    height: 48px;
+    background-color: #ffffff; /* Темно-серый фон */
+    color: #000000; /* Белый текст */
+    border: none;
+    border-radius: 10px; /* Скругление углов */
+    cursor: pointer;
+    font-size: 12px; /* Размер шрифта */
+    transition: background-color 0.3s ease; /* Плавное изменение цвета */
+    font-family: 'Montserrat', sans-serif;
+    white-space: nowrap; /* Запрещаем перенос текста */
+    overflow: hidden; /* Скрываем текст, выходящий за пределы */
+    text-overflow: ellipsis; /* Добавляем многоточие */
+    margin-top: 8px;
+    text-align: center;
+}
+
+.container {
+    width: 400px; /* Фиксированная ширина контейнера */
+    padding: 16px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .list {
+    list-style: none; /* Убираем маркеры списка */
+    padding: 0; /* Убираем внутренние отступы */
+    margin: 0; /* Убираем внешние отступы */
+    overflow-y: auto; /* Добавляем вертикальную прокрутку */
+    max-height: 400px; /* Ограничиваем высоту контейнера */
+  }
+
+  .listCropped {
+    list-style: none; /* Убираем маркеры списка */
+    padding: 0; /* Убираем внутренние отступы */
+    margin: 0; /* Убираем внешние отступы */
+    overflow-y: auto; /* Добавляем вертикальную прокрутку */
+    max-height: 200px; /* Ограничиваем высоту контейнера */
+  }
+
+  .list::-webkit-scrollbar {
+    display: none; /* Скрываем ползунок */
+  }
+
+  .listCropped::-webkit-scrollbar {
+    display: none; /* Скрываем ползунок */
+  }
+  
+  .list-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px;
+    border: 1px solid #ddd;
+    margin-bottom: 8px;
+    border-radius: 8px; /* Закругленные углы */
+    background-color: #f9f9f9; /* Фон элемента */
+  }
+
+.Separator{
+    margin-bottom: 16px;
+}
+
+.currencyHeaderMain {
+    font-family: 'Montserrat', sans-serif;
+    color: #000000;
+    font-size: 18px; /* Размер шрифта */
+    margin-left: 16px;
+    margin-right: 16px;
+    font-weight: 400;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    text-align: left; /* Прижимаем текст вправо */
+}
+
+.categoryHeaderMain {
+    font-family: 'Montserrat', sans-serif;
+    color: #000000;
+    font-size: 16px; /* Размер шрифта */
+    margin-left: 16px;
+    margin-right: 16px;
+    padding-top: 12px;
+    font-weight: 400;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    text-align: left; /* Прижимаем текст вправо */
+}
+
+.choosedCategoryHeaderMain {
+    font-family: 'Montserrat', sans-serif;
+    color:  #818181;
+    font-size: 12px; /* Размер шрифта */
+    margin-right: 24px;
+    font-weight: 400;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-bottom: 16px;
+    text-align: right; /* Прижимаем текст вправо */
+}
+
+.choosedCategoryLabelMain {
+    font-family: 'Montserrat', sans-serif;
+    color:  #4b4b4b;
+    font-size: 12px; /* Размер шрифта */
+    margin-left: 24px;
+    font-weight: 400;
+    margin-top: 0px;
+    margin-bottom: 16px;
+    text-align: left; /* Прижимаем текст вправо */
+}
+
+.MainListLabel {
+    font-family: 'Montserrat', sans-serif;
+    color:  #4b4b4b;
+    font-size: 14px; /* Размер шрифта */
+    margin-left: 24px;
+    font-weight: 600;
+    text-align: left; /* Прижимаем текст вправо */
+}
+
+.MainListSubLabel {
+    font-family: 'Montserrat', sans-serif;
+    color:  #4b4b4b;
+    font-size: 10px; /* Размер шрифта */
+    margin-left: 24px;
+    font-weight: 400;
+    margin-top: 0px;
+    margin-bottom: 16px;
+    text-align: left; /* Прижимаем текст вправо */
+}
+
+.MainListVerticalGrid
+{
+    display: flex;
+    flex-direction: column; /* Элементы в колонку */
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.currencyHeaderHeavy {
+    font-family: 'Montserrat', sans-serif;
+    color: #000000;
+    font-size: 24px; /* Размер шрифта */
+    margin-left: 16px;
+    margin-right: 16px;
+    font-weight: 600;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    text-align: left; /* Прижимаем текст вправо */
+}
+
+@media (max-width: 800px) {
+    .AdaptiveGrid {
+      display: flex;
+      flex-direction: column; /* Элементы в колонку */
+      gap: 8px;
+    }
+    .MainContainer{
+        width: 400px;
+    }
+  }
+
+  @media (max-width: 500px) {
+    .AdaptiveGrid {
+      display: flex;
+      flex-direction: column; /* Элементы в колонку */
+      max-width: 300px; /* Ограничение ширины на больших экранах */
+      gap: 8px;
+    }
+    .MainContainer{
+        width: 300px;
+    }
+    .NavPanelButton{
+        font-size: 10px;
+    }
+    .CategoriesButton{
+        margin-left: 0px;
+        padding-left: 0px;
+    }
+    .ListButton{
+        margin-left: 0px;
+        padding-left: 0px;
+    }
+    .LoginBubble{
+        width: 400px;
+    }
+    .TransactionsContainer{
+        margin-left: 0px;
+        padding-left: 12px;
+    }
+    .NavPanelButton-active{
+        font-size: 10px;
+    }
+    .currencyHeader{
+        font-size: 16px;
+    }
+    .StatisticsCroppedContainer{
+        width: 300px;
+    }
+    .listCropped{
+        width: 272px;
+    }
+  }
+

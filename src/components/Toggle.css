@@ -1,0 +1,61 @@
+/* Toggle.css */
+.Toggle {
+    display: flex;
+    border: 2px solid #e0e0e0; /* Легкая граница */
+    border-radius: 30px; /* Закругленные углы */
+    overflow: hidden; /* Чтобы кнопки не выходили за границы */
+    width: fit-content; /* Ширина по содержимому */
+    background-color: #f9f9f9; /* Светлый фон контейнера */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Тень для контейнера */
+    transition: all 0.3s ease; /* Плавный переход для контейнера */
+  }
+  
+  .Toggle button {
+    font-family: 'Montserrat', sans-serif;
+    flex: 1; /* Равномерное распределение пространства */
+    padding: 12px 24px; /* Отступы внутри кнопок */
+    border: none; /* Убираем границы */
+    background-color: transparent; /* Прозрачный фон */
+    color: #555; /* Цвет текста */
+    font-size: 12px; /* Размер текста */
+    font-weight: 500; /* Полужирный текст */
+    cursor: pointer; /* Курсор в виде указателя */
+    transition: all 0.3s ease; /* Плавный переход */
+    position: relative; /* Для псевдоэлементов */
+    z-index: 1; /* Чтобы текст был выше фона */
+  }
+  
+  .Toggle button::before {
+    font-family: 'Montserrat', sans-serif;
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, #b57cff, #d9bcff);
+    border-radius: 30px; /* Закругленные углы */
+    opacity: 0; /* Скрываем по умолчанию */
+    transition: opacity 0.2s linear; /* Плавное появление */
+    z-index: -1; /* Фон под текстом */
+  }
+  
+  .Toggle button.active {
+    color: white; /* Цвет текста активной кнопки */
+  }
+  
+  .Toggle button.active::before {
+    opacity: 1; /* Показываем градиентный фон */
+  }
+  
+  .Toggle button:hover {
+    color: #333; /* Цвет текста при наведении */
+  }
+  
+  .Toggle button.active:hover {
+    color: white; /* Цвет текста активной кнопки при наведении */
+  }
+  
+  .Toggle:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Увеличиваем тень при наведении */
+  }

@@ -1,0 +1,94 @@
+.glow-button {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 100;
+    margin-top: 16px;
+    width: 288px;
+    height: 48px;
+    font-size: 36px;
+    color: #fff;
+    background: linear-gradient(45deg, #9747FF, #c090ff);
+    border: none;
+    border-radius: 24px;
+    cursor: pointer;
+    overflow: hidden;
+    text-align: center;
+    z-index: 1;
+    background-size: 200% 200%;
+    animation: gradientAnimation 5s ease infinite;
+  
+    position: fixed; /* Фиксированное положение */
+    bottom: 20px; /* Отступ от нижнего края */
+    left: 50%; /* Центрирование по горизонтали */
+    transform: translateX(-50%); /* Смещение для точного центрирования */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Тень */
+  }
+  
+  .glow-button::before {
+    content: '';
+    position: absolute; /* Добавлено */
+    top: var(--y, 0);
+    left: var(--x, 0);
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.3), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: -1;
+  }
+  
+  .glow-button:hover::before {
+    opacity: 1;
+  }
+
+  .add-category-button {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 100;
+    margin-top: 16px;
+    width: 288px;
+    height: 48px;
+    font-size: 36px;
+    color: #fff;
+    background: linear-gradient(45deg, #9747FF, #c090ff);
+    border: none;
+    border-radius: 24px;
+    cursor: pointer;
+    overflow: hidden;
+    text-align: center;
+    z-index: 1;
+    background-size: 200% 200%;
+    animation: gradientAnimation 5s ease infinite;
+
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Тень */
+  }
+  
+  .add-category-button::before {
+    content: '';
+    position: absolute; /* Добавлено */
+    top: var(--y, 0);
+    left: var(--x, 0);
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.3), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: -1;
+  }
+  
+  .add-category-button:hover::before {
+    opacity: 1;
+  }
+  
+  @keyframes gradientAnimation {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+

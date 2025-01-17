@@ -1,0 +1,213 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap');
+
+/* Основные стили */
+body {
+  font-family: 'Montserrat', sans-serif;
+    background-color: #f5f5f5; /* Светло-серый фон */
+    color: #333; /* Темно-серый текст */
+    margin: 0; /* Убираем отступы по умолчанию */
+    display: flex;
+    justify-content: center; /* Центрирование по горизонтали */
+    align-items: center; /* Центрирование по вертикали */
+    min-height: 100vh; /* Минимальная высота равна высоте экрана */ 
+  }
+  
+  .LoginBubble {
+    background-color: #fff; /* Белый фон */
+    border-radius: 48px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Мягкая тень */
+    width: 480px;
+    height: 480px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .LoginBubble input[type="text"],
+  .LoginBubble input[type="password"] {
+  width: 288px; /* Ширина кнопки на 100% от родителя */
+  height : 48px;
+  padding: 12px; /* Внутренние отступы */
+  margin: 10px 0; /* Внешние отступы */
+  border: 1px solid #ccc; /* Граница */
+  border-radius: 10px; /* Скругление углов */
+  font-size: 12px; /* Размер шрифта */
+  box-sizing: border-box; /* Учитываем padding в ширине */
+  font-family: 'Montserrat', sans-serif;
+  }
+
+  .LoginBubble input[type="account-name"] {
+    width: 288px; /* Ширина кнопки на 100% от родителя */
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    height : 48px;
+    padding: 12px; 
+    border: 0px solid #ccc; 
+    border-radius: 12px; 
+    font-size: 24px; 
+    color: #D1D1D6;
+    box-sizing: border-box; 
+    text-align: center; 
+  }
+
+  .LoginBubble input[type="account-name"]::placeholder {
+      font-size: 24px; 
+      color: #D1D1D6;
+  }
+
+  .LoginBubble input[type="account-name"]:focus {
+        border: 0px solid #000000; /* Синяя граница */
+        outline: none; /* Убираем стандартную обводку */
+   }
+  .LoginBubble input[type="currency-val"] {
+    width: 100%;
+        font-family: 'Montserrat', sans-serif;
+        height : 48px;
+        padding: 4px; /* Внутренние отступы */
+        border: 0px solid #ccc; /* Граница */
+        border-radius: 8px; /* Скругление углов */
+        font-size: 24px; /* Размер шрифта */
+        box-sizing: border-box; /* Учитываем padding в ширине */
+        text-align: right; /* Прижимаем текст вправо */
+        font-weight: 600;
+        color: #000000;
+  }
+  .LoginBubble input[type="currency-val"]::placeholder {
+    color: #000000;
+  }
+
+  .LoginBubble input[type="currency-val"]:focus {
+        border: 0px solid #000000; /* Синяя граница */
+        outline: none; /* Убираем стандартную обводку */
+  }
+
+  .Container {
+    /*background-color: #FFFFFF;*/
+    width: 320px;
+    height: 320px;
+    border-radius: 16px;
+    /*box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);*/
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .LoginBubbleButton {
+    width: 288px; /* Ширина кнопки на 100% от родителя */
+    height: 48px;
+    padding: 12px 24px; /* Внутренние отступы */
+    margin: 10px 0; /* Внешние отступы */
+    background-color: #9747FF; /* Темно-серый фон */
+    color: #fff; /* Белый текст */
+    border: none;
+    border-radius: 10px; /* Скругление углов */
+    cursor: pointer;
+    font-size: 12px; /* Размер шрифта */
+    transition: background-color 0.3s ease; /* Плавное изменение цвета */
+    font-family: 'Montserrat', sans-serif;
+  }
+
+  .DisabledLoginBubbleButton {
+    width: 288px; /* Ширина кнопки на 100% от родителя */
+    height : 48px;
+    padding: 12px 24px; /* Внутренние отступы */
+    margin: 10px 0; /* Внешние отступы */
+    background-color: #f0f0f0; /* Темно-серый фон */
+    color: #a7a6a6; /* Белый текст */
+    border: none;
+    border-radius: 10px; /* Скругление углов */
+    cursor: pointer;
+    font-size: 12px; /* Размер шрифта */
+    font-family: 'Montserrat', sans-serif;
+  }
+  
+  .LoginBubbleButton:hover {
+    background-color: #b67eff; /* Серый фон при наведении */
+  }
+
+  
+  .mainHeader {
+    font-family: 'Montserrat', sans-serif;
+    color: #333; /* Темно-серый текст */
+    font-size: 24px; /* Размер шрифта */
+    margin: 0 0 0 0; /* Уменьшаем отступы: сверху 0, справа 0, снизу 10px, слева 0 */
+  }
+  
+  .currencyHeader {
+    font-family: 'Montserrat', sans-serif;
+    color: #D1D1D6;
+    font-size: 24px; /* Размер шрифта */
+    margin: 0 0 0 0; /* Уменьшаем отступы: сверху 0, справа 0, снизу 10px, слева 0 */
+    text-align: left; /* Прижимаем текст вправо */
+  }
+
+  .hrefHeader {
+    font-family: 'Montserrat', sans-serif;
+    color: #a5a5a5; /* Серый текст */
+    font-size: 12px; /* Размер шрифта */
+    margin: 20px 0 20px 0; /* Уменьшаем отступы: сверху 0, справа 0, снизу 20px, слева 0 */
+  }
+
+  .hrefText {
+    text-decoration: none;
+    font-family: 'Montserrat', sans-serif;
+    color: #3e61ff; /* Серый текст */
+    font-size: 12px; /* Размер шрифта */
+    margin: 20px 0 20px 0; /* Уменьшаем отступы: сверху 0, справа 0, снизу 20px, слева 0 */
+  }
+
+  .back-button {
+    background-color: transparent; /* Прозрачный фон */
+    border: none; /* Убираем границу */
+    width: 48px;
+    color: #333; /* Цвет текста */
+    font-size: 16px; /* Размер текста */
+    cursor: pointer; /* Курсор в виде указателя */
+    padding: 8px 16px; /* Внутренние отступы */
+    display: flex;
+    align-items: center; /* Выравниваем текст и стрелку по вертикали */
+  }
+
+  .back-button:focus {
+    outline: none; /* Убираем стандартную рамку */
+  }
+
+  .empty-back-button {
+    background-color: transparent; /* Прозрачный фон */
+    border: none; /* Убираем границу */
+    width: 48px;
+    color: #333; /* Цвет текста */
+    font-size: 16px; /* Размер текста */
+    cursor: default; /* Отключаем смену курсора */
+    padding: 8px 16px; /* Внутренние отступы */
+    display: flex;
+    align-items: center; /* Выравниваем текст и стрелку по вертикали */
+  }
+  
+  .back-button:hover {
+    color: #555; /* Цвет текста при наведении */
+  }
+
+  .container {
+    display: grid; /* Включаем Grid */
+    grid-template-columns: 10% 80% 10%; /* Делим на 20% и 80% */
+  }
+
+  .container2 {
+    grid-template-columns: 50% 50%;
+    text-align: center;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .BackButtonContainer {
+    display: grid; /* Включаем Grid */
+    padding-left: 10%;
+    padding-right: 10%;
+    grid-template-columns: 10% 80% 10%; /* Делим на 20% и 80% */
+  }
+

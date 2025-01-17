@@ -10,6 +10,7 @@ import AddTransactionButton from "./GlowButton";
 import ExpenseChart from "./ExpenseChart";
 import {
   API_GET_ACCOUNT,
+  API_GEN_LINK,
   API_ADD_TRANSACTION,
   API_TRANSACTION_LIST,
   API_ADD_ACCOUNT,
@@ -43,6 +44,8 @@ const MainScreen = () => {
     { id: 9, name: 'House' },
     { id: 9, name: 'Pets' },
   ];*/
+  const [inviteName, setInviteName] = useState("");
+  const [inviteLink, setInviteLink] = useState("https://InviteLink");
   const [categories, setCategories] = useState([]);
   const [token, setToken] = useState(localStorage.getItem("token") || null);
   const [transactions, setTransactions] = useState([]);
@@ -102,8 +105,32 @@ const MainScreen = () => {
     console.log("IsDailyStats: " + localStorage.getItem("isDailyStats"));
   };
 
+  const InviteMember = async () => {
+    const body = {
+      account_id: localStorage.getItem("account"),
+      user_id: localStorage.getItem("token"),
+    };
+    const response = await fetch(API_GEN_LINK, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(body),
+    });
+
+    if (!response.ok) {
+      throw new Error("Ошибка при генерации ссылки");
+    }
+
+    const data = await response.json();
+
+    /*setInviteLink(data)*/
+  }
+
   const moveToSharing = () => {
-    navigate("/invite")
+    InviteMember();
+    setCurrentStep(8);
   };
   const moveToAddTransaction = () => {
     setCurrentStep(2);
@@ -377,7 +404,32 @@ const MainScreen = () => {
       console.error(err);
     }
   };
-
+  const handleCopy = () => {
+    if (navigator.clipboard) {
+      // Используем современный API, если доступен
+      navigator.clipboard
+        .writeText(inviteLink)
+        .then(() => {
+          alert("Текст скопирован в буфер обмена!");
+        })
+        .catch((err) => {
+          console.error("Не удалось скопировать текст: ", err);
+        });
+    } else {
+      // Fallback для старых браузеров
+      const textArea = document.createElement("textarea");
+      textArea.value = inviteLink;
+      document.body.appendChild(textArea);
+      textArea.select();
+      try {
+        document.execCommand("copy"); // Копируем текст
+        alert("Текст скопирован в буфер обмена!");
+      } catch (err) {
+        console.error("Не удалось скопировать текст: ", err);
+      }
+      document.body.removeChild(textArea); // Удаляем временный элемент
+    }
+  };
   const handleLogout = () => {
     setToken(null);
     setAccount(null);
@@ -825,21 +877,22 @@ const MainScreen = () => {
         );
       case 7:
         return (
+          <body>
+          <button class="back-button" onClick={moveToMainWindow}>
+          <img
+            src={BackButtonIcon} // URL вашей картинки
+            alt="icon"
+            style={{ paddingLeft: "0px" }}
+            width={10}
+            height={10}
+          />
+        </button>
           <div class="outer" className="LoginBubble">
             <div class="inner" className="Container">
               <div class="container">
-                <button class="back-button" onClick={moveToMainWindow}>
-                  <img
-                    src={BackButtonIcon} // URL вашей картинки
-                    alt="icon"
-                    style={{ paddingLeft: "0px" }}
-                    width={10}
-                    height={10}
-                  />
-                </button>
                 <div
                   style={{ paddingLeft: "16px" }}
-                  className="VerticalGridCentered"
+                  className="StatisticsCroppedContainer"
                 >
                   <ListButton
                     text="Sharing"
@@ -855,7 +908,38 @@ const MainScreen = () => {
               </div>
             </div>
           </div>
+          </body>
         );
+        case 8:
+          return(
+            <body>
+             <button class="back-button" onClick={moveToMainWindow}>
+                  <img
+                    src={BackButtonIcon} // URL вашей картинки
+                    alt="icon"
+                    style={{ }}
+                    width={10}
+                    height={10}
+                  />
+            </button>
+            <div class="outer" className="LoginBubble">
+              <div class="inner" className="Container">
+                <div className="VerticalGridCentered">
+                  
+                  <h1 style={{ paddingBottom: "48px" }} className="mainHeader">
+                    Invite link for account: {accountName}
+                  </h1>
+                  <h1 style={{ paddingBottom: "48px" , fontSize:'16px' }} 
+                  className="currencyHeader">
+                    {inviteLink}</h1>                         
+                  <button className={"LoginBubbleButton"} onClick={handleCopy
+                  }>
+                      Copy</button>
+                </div>
+              </div>
+            </div>
+          </body>
+          )
     }
   }
 };

@@ -1,0 +1,58 @@
+/* Контейнер для фильтра */
+.filter-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  /* Лейбл фильтра */
+  .filter-label {
+    margin-right: 10px;
+    font-size: 16px;
+    color: #333;
+  }
+  
+  /* Кастомный стиль для select */
+  .custom-select {
+    position: relative;
+    display: inline-block;
+    width: 200px;
+  }
+  
+  .custom-select select {
+    appearance: none; /* Убираем стандартный стиль */
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 2px solid #007bff;
+    border-radius: 8px;
+    background-color: white;
+    color: #333;
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+  
+  .custom-select select:hover {
+    border-color: #0056b3;
+  }
+  
+  .custom-select::after {
+    content: "▼";
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: #007bff;
+    font-size: 12px;
+  }
+  
+  /* Стили для заголовка даты */
+  .date-header {
+    text-align: center;
+    margin: 10px 0;
+    font-weight: bold;
+    color: #666;
+    font-size: 16px;
+  }

@@ -5,6 +5,10 @@ export const API_AUTH_LOGIN = `${API_BASE_URL}/user/login`;
 export const API_AUTH_REGISTER = `${API_BASE_URL}/user`;
 
 export const API_GET_ACCOUNT = `${API_BASE_URL}/account`;
+
+export const API_GEN_LINK = `${API_BASE_URL}/account/link`;
+export const API_ADD_ACCOUNT_BY_LINK = `${API_BASE_URL}/account/link/member`;
+
 export const API_GET_ACCOUNT_CATEGORIES = `${API_BASE_URL}/account/categories`;
 export const API_POST_ACCOUNT_CATEGORY = `${API_BASE_URL}/account/category`;
 

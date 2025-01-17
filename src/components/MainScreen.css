@@ -293,6 +293,7 @@ body {
 
 .TransactionsFullGrid
 {
+    width: 400px;
     border: 0px solid #ccc;
     display: flex;
     flex-direction: column; /* Элементы в колонку */
@@ -505,7 +506,10 @@ body {
         width: 400px;
     }
     .StatisticsFullContainer{
-        width: 320px;
+        width: 360px;
+    }
+    .TransactionsFullGrid{
+        width: 300px;
     }
   }
 
@@ -553,7 +557,10 @@ body {
         width: 272px;
     }
     .StatisticsFullContainer{
-        width: 300px;
+        width: 340px;
+    }
+    .TransactionsFullGrid{
+        width: 260px;
     }
   }
 

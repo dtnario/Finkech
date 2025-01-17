@@ -18,6 +18,7 @@ import AngleIcon from '../img/u_angle-right-b.png'
 import TransactionsPieChart from './PieDiagram';
 import AccountList from './AccountList';
 import ListButton from './ListButton';
+import PeriodToggle from './PeriodToggle';
 
 const MainScreen = () => {
   /*const categories = [
@@ -39,32 +40,51 @@ const MainScreen = () => {
   const [accountName, setAccountName] = useState(localStorage.getItem('accountName') || null);
   const [newAccountName, setNewAccountName] = useState('');
   const [accounts, setAccounts] = useState([]);
+
   const [currency, setCurrency] = useState('RUB'); // Добавляем состояние для валюты
   const [balance, setBalance] = useState(0); // Добавляем состояние для валюты
   const navigate = useNavigate();
   const [addedUser, setAddedUser] = useState('');
   const [userList, setUserList] = useState('USERS');
   const [currentStep, setCurrentStep] = useState(1);
+  const [isDailyStats, setIsDailyStats] = useState(localStorage.getItem('isDailyStats') === 'true');
   const [AccountNameIsFocused, setAccountNameIsFocused] = useState(false); // Состояние фокуса
+  
+  const getChartData = (data) => {
+  const expenses = data.filter((transaction) => transaction.value < 0);
 
-  const expenses = transactions.filter((transaction) => transaction.value < 0);
   const groupedData = expenses.reduce((acc, transaction) => {
-    const { category, value } = transaction;
+    const { category, value, created_at } = transaction;
+  
     if (!acc[category]) {
-      acc[category] = 0;
+      acc[category] = {
+        totalAmount: 0,
+        timestamps: [], // Массив для хранения created_at
+      };
     }
-    acc[category] += Math.abs(value); // Используем Math.abs, чтобы получить положительные значения
+  
+    acc[category].totalAmount += Math.abs(value); // Суммируем значения
+    acc[category].timestamps.push(created_at); // Добавляем created_at в массив
+  
     return acc;
   }, {});
   
   // Преобразуем в массив для использования в графике
   const chartData = Object.keys(groupedData).map((category) => ({
     category,
-    amount: groupedData[category],
+    amount: groupedData[category].totalAmount, // Суммарное значение
+    created_at: groupedData[category].timestamps, // Массив created_at
   }));
 
-    // Сортируем по убыванию суммы расходов
-  const sortedChartData = chartData.sort((a, b) => b.amount - a.amount);
+  return chartData
+  }
+
+  const handleIsDailyStats = (isDaily) => {
+    setIsDailyStats(isDaily)
+    localStorage.setItem('isDailyStats' , isDaily)
+
+    console.log('IsDailyStats: ' + localStorage.getItem('isDailyStats'))
+  };
 
   const moveToAddTransaction = () => {
     setCurrentStep(2)
@@ -72,8 +92,8 @@ const MainScreen = () => {
   const moveToSettings = () => {
     setCurrentStep(7)
   };
-  const moveToMainWindow = () => {
-    updateTransactions()
+  const moveToMainWindow = async () => {
+    await updateTransactions()
     setCurrentStep(1)
   };
   const moveToTransactionList = () => {
@@ -145,6 +165,22 @@ const MainScreen = () => {
   console.log(account)
   };
   
+  const GetPeriodTransactions = (data) => {
+    const fetchData = async () => {
+      try {
+        // Задержка для имитации загрузки
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+      } catch (error) {
+        console.error('Ошибка при загрузке данных:', error);
+      } finally {
+      }
+    };
+
+    fetchData();
+
+    return data
+  }
+
   const fetchTransactions = async (user) => {
     try {
       setTransactions([])
@@ -177,6 +213,39 @@ const MainScreen = () => {
       console.error(err);
     }
   };
+
+  const UpdatePeriodTransactions = () => {
+
+    const now = new Date();
+    const currentYear = now.getFullYear();
+    const currentMonth = now.getMonth() + 1; 
+    const currentDay = now.getDate();
+
+    const filteredTransactions = transactions.filter(transaction => {
+      const transactionDate = new Date(transaction.created_at);
+      const transactionYear = transactionDate.getFullYear();
+      const transactionMonth = transactionDate.getMonth() + 1;
+      const transactionDay = transactionDate.getDate() + 1;
+
+      if (localStorage.getItem('isDailyStats')) {
+        // Фильтруем по текущему дню
+        return (
+          transactionYear === currentYear &&
+          transactionMonth === currentMonth &&
+          transactionDay === currentDay
+        );
+      } else {
+        // Фильтруем по текущему месяцу
+        return (
+          transactionYear === currentYear &&
+          transactionMonth === currentMonth
+        );
+      }
+    });
+
+    console.log(filteredTransactions)
+    return filteredTransactions.sort();
+  }
 
   const addTransaction = async (transaction) => {
     try {
@@ -505,12 +574,13 @@ const MainScreen = () => {
       
               <div className='MobileSectionGrid'>
                   <div className='StatsContainer'> 
-                  
                   <div className='VerticalGridCentered'>
                   <h3 className='currencyHeaderMain' style={{marginBottom:'16px' , marginLeft:'0px' , fontWeight:'500'}}>Statistics</h3>
-                    <TransactionsPieChart transactions={transactions} />
+                  <PeriodToggle isDailyStats={isDailyStats} 
+                  setIsDailyStats={handleIsDailyStats}></PeriodToggle>
+                    <TransactionsPieChart transactions={transactions} isDaily={isDailyStats}  />
                     <div className='StatisticsCroppedContainer'>
-                      <ExpenseChart data={chartData} lStyle = 'listCropped' />
+                      <ExpenseChart isDaily = {isDailyStats} data={getChartData(transactions)} lStyle = 'listCropped' />
                     </div>
 
                     <button onClick={moveToStatisticsList} className="hrefTextMain">Show more</button>
@@ -522,7 +592,7 @@ const MainScreen = () => {
             </div>
       
             <AddTransactionButton text="+" onClick={moveToAddTransaction}></AddTransactionButton>
-            <button className='buttonsec' onClick={handleLogout}>Выйти</button>
+
             <div style={{height:'100px'}}></div>
           </div>
         </body>
@@ -573,7 +643,7 @@ const MainScreen = () => {
             </button>
   
             <div className='StatisticsFullContainer'>
-                <ExpenseChart data={chartData} lStyle = 'list' />
+                <ExpenseChart data={getChartData(transactions)} lStyle = 'list' />
             </div>
 
             </div>
@@ -674,8 +744,12 @@ const MainScreen = () => {
                             height={10} 
                             />
                           </button>
+                          <div style={{paddingLeft:'16px'}}className='VerticalGridCentered'>
                           <ListButton text="Sharing" onClick={moveToMainWindow} 
                           data = {[]}></ListButton>
+                          <ListButton text="Exit" onClick={handleLogout} 
+                          data = {[]}></ListButton>
+                          </div>
                         </div>  
                       </div>
                       </div>

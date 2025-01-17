@@ -41,7 +41,7 @@ const AddTransaction = ({ addTransaction, currencySymbol , prevStep , categories
       });
 
     await updateCategories()
-    
+    setNewCategory('')
   };
 
   const onSubmit = async (e) => {
@@ -76,7 +76,7 @@ const AddTransaction = ({ addTransaction, currencySymbol , prevStep , categories
       account_id: localStorage.getItem('account')
     };
 
-    addTransaction(newTransaction);
+    await addTransaction(newTransaction);
     setDescription('');
     setTransactionValue('');
 
@@ -247,7 +247,8 @@ const AddTransaction = ({ addTransaction, currencySymbol , prevStep , categories
                       onBlur={() => setAccountNameIsFocused(false)}
               />
               <button class="back-button"
-              onClick={AddCategory}>
+              onClick={AddCategory}
+              >                
               <img
               src={ReverseBackButtonIcon} // URL вашей картинки
               alt="icon"

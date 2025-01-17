@@ -13,35 +13,82 @@ const getRandomColor = () => {
   return color;
 };
 
-const ExpenseChart = ({ data , lStyle }) => {
+const ExpenseChart = ({ data, lStyle , isDaily }) => {
   // Вычисляем общую сумму всех трат
   const totalAmount = data.reduce((sum, item) => sum + item.amount, 0);
 
   // Ref для хранения ссылок на прогресс-бары
   const progressBarsRef = useRef([]);
 
+  // Обновляем periodTransactions при изменении isDaily
+  useEffect(() => {
+    console.log('IS DAILY CHANGED EXPENSE');
+    console.log(isDaily)
+  }, [isDaily, data]);
+
+  // Рассчитываем процент для каждой категории и сортируем по убыванию
+  const sortedData = data
+    .map((item) => ({
+      ...item,
+      percentage: ((item.amount / totalAmount) * 100).toFixed(2), // Рассчитываем процент
+    }))
+    .sort((a, b) => b.percentage - a.percentage); // Сортируем по убыванию процента
+
+  const filterTransactions = (transactions, isDaily) => {
+     console.log(transactions)
+      const now = new Date();
+      const currentYear = now.getFullYear();
+      const currentMonth = now.getMonth() + 1;
+      const currentDay = now.getDate();
+
+      return transactions.filter((transaction) => {
+        const transactionDate = new Date(transaction.created_at);
+        const transactionYear = transactionDate.getFullYear();
+        const transactionMonth = transactionDate.getMonth() + 1;
+        const transactionDay = transactionDate.getDate();
+  
+        if (isDaily) {
+          return (
+            transactionYear === currentYear &&
+            transactionMonth === currentMonth &&
+            transactionDay === currentDay
+          );
+        } else {
+          return (
+            transactionYear === currentYear &&
+            transactionMonth === currentMonth
+          );
+        }
+      });
+    };
+
   // Анимация прогресс-баров
   useEffect(() => {
+    const data = filterTransactions(sortedData , isDaily);
     progressBarsRef.current.forEach((bar, index) => {
-      if(data.length > 0){
-      const percentage = ((data[index].amount / totalAmount) * 100).toFixed(2);
-      bar.style.width = '0%'; // Начальная ширина
-      setTimeout(() => {
-        bar.style.width = `${percentage}%`; // Конечная ширина
-      }, 100); // Задержка для плавного старта анимации
-    }
+      if (data.length > 0) {
+        const percentage = data[index].percentage;
+        bar.style.width = '0%'; // Начальная ширина
+        setTimeout(() => {
+          bar.style.width = `${percentage}%`; // Конечная ширина
+        }, 100); // Задержка для плавного старта анимации
+      }
     });
-  }, [data, totalAmount]);
+  }, [sortedData, totalAmount]);
 
   return (
-    <div style={{ width: '320px',  maxWidth: '600px', margin: '0 auto' , paddingLeft:'16px'
-        , paddingRight:'16px'}}>
-
+    <div
+      style={{
+        width: '320px',
+        maxWidth: '600px',
+        margin: '0 auto',
+        paddingLeft: '16px',
+        paddingRight: '16px',
+      }}
+    >
       <ul className={lStyle}>
-        {data.map((item, index) => {
-          // Рассчитываем процент от общей суммы
-          const percentage = ((item.amount / totalAmount) * 100).toFixed(2);
-
+        {filterTransactions(sortedData , isDaily).map((item, index) => {
+          if(sortedData.length > 0){
           // Выбираем цвет: для топовых категорий используем заданные цвета, для остальных — случайные
           const color = index < topColors.length ? topColors[index] : getRandomColor();
 
@@ -50,7 +97,7 @@ const ExpenseChart = ({ data , lStyle }) => {
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '5px' }}>
                 <span>{item.category}</span>
                 <span>
-                  {item.amount} RUB ({percentage}%)
+                  {item.amount} RUB ({item.percentage}%)
                 </span>
               </div>
               <div
@@ -75,7 +122,7 @@ const ExpenseChart = ({ data , lStyle }) => {
               </div>
             </li>
           );
-        })}
+        }})}
       </ul>
     </div>
   );

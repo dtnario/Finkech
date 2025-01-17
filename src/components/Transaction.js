@@ -4,7 +4,7 @@ import AngleIcon from "../img/u_angle-right-b.png";
 
 const Transaction = ({ transaction, currencySymbol }) => {
   const type = transaction.value < 0 ? "Расход" : "Доход";
-
+  const isIncome = transaction.value > 0;
   return (
     <li className={transaction.value < 0 ? "minus" : "plus"}>
       <div>
@@ -28,7 +28,7 @@ const Transaction = ({ transaction, currencySymbol }) => {
             <div style={{ width: "1000px" }}></div>
 
             <div className="MainListVerticalGrid">
-              <div className="MainListLabel">
+              <div className={isIncome ? "TransactionAmountLabelIncome" : "TransactionAmountLabelExpense"}>
                 {transaction.value + currencySymbol}
               </div>
               <div className="MainListSubLabel">

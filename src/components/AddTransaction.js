@@ -137,7 +137,7 @@ const AddTransaction = ({
       case 1:
         return (
           <div>
-            <div class="BackButtonContainer">
+            <div className="BackButtonContainer">
               <button class="back-button" onClick={prevStep}>
                 <img
                   src={BackButtonIcon} // URL вашей картинки
@@ -170,7 +170,7 @@ const AddTransaction = ({
             </div>
             <form onSubmit={onSubmit}>
               <div>
-                <div class="container2">
+                <div className="container2">
                   <input
                     type="currency-val"
                     value={transactionValue}
@@ -205,7 +205,7 @@ const AddTransaction = ({
       case 2:
         return (
           <div className="Container">
-            <div class="BackButtonContainer">
+            <div className="BackButtonContainer">
               <div style={{ display: "flex" }}>
                 <button class="back-button" onClick={showAddTransactionWindow}>
                   <img

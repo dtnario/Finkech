@@ -186,7 +186,7 @@ const TransactionsPieChart = ({ transactions, isDaily }) => {
   };
 
   if (!chartData) {
-    return <div>Загрузка данных...</div>;
+    return <div>Loading data...</div>;
   }
 
   return (

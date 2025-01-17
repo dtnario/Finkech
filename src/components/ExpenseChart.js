@@ -14,9 +14,6 @@ const getRandomColor = () => {
 };
 
 const ExpenseChart = ({ data, lStyle, isDaily }) => {
-  // Вычисляем общую сумму всех трат
-  const totalAmount = data.reduce((sum, item) => sum + item.amount, 0);
-
   // Ref для хранения ссылок на прогресс-бары
   const progressBarsRef = useRef([]);
 
@@ -26,16 +23,8 @@ const ExpenseChart = ({ data, lStyle, isDaily }) => {
     console.log(isDaily);
   }, [isDaily, data]);
 
-  // Рассчитываем процент для каждой категории и сортируем по убыванию
-  const sortedData = data
-    .map((item) => ({
-      ...item,
-      percentage: ((item.amount / totalAmount) * 100).toFixed(2), // Рассчитываем процент
-    }))
-    .sort((a, b) => b.percentage - a.percentage); // Сортируем по убыванию процента
-
+  // Фильтрация транзакций по дате (дневной/месячный)
   const filterTransactions = (transactions, isDaily) => {
-    console.log(transactions);
     const now = new Date();
     const currentYear = now.getFullYear();
     const currentMonth = now.getMonth() + 1;
@@ -51,7 +40,7 @@ const ExpenseChart = ({ data, lStyle, isDaily }) => {
         return (
           transactionYear === currentYear &&
           transactionMonth === currentMonth &&
-          transactionDay === currentDay 
+          transactionDay === currentDay
         );
       } else {
         return (
@@ -61,23 +50,61 @@ const ExpenseChart = ({ data, lStyle, isDaily }) => {
     });
   };
 
+  // Группировка транзакций по категориям и расчет суммы для каждой категории
+  const groupTransactionsByCategory = (transactions) => {
+    return transactions.reduce((acc, transaction) => {
+      const { category, value } = transaction;
+      if (!acc[category]) {
+        acc[category] = {
+          amount: 0,
+          transactions: [], // Сохраняем все транзакции для этой категории
+        };
+      }
+      acc[category].amount += Math.abs(value); // Суммируем amount (используем Math.abs для расходов)
+      acc[category].transactions.push(transaction); // Добавляем транзакцию
+      return acc;
+    }, {});
+  };
+
+  // Преобразуем объект groupedData в массив и рассчитываем процент для каждой категории
+  const getChartData = (transactions, isDaily) => {
+    const filteredData = filterTransactions(transactions, isDaily); // Фильтруем по дате
+    const groupedData = groupTransactionsByCategory(filteredData); // Группируем по категориям
+
+    // Вычисляем общую сумму всех трат для отфильтрованных данных
+    const totalAmount = Object.values(groupedData).reduce(
+      (sum, category) => sum + category.amount,
+      0
+    );
+
+    // Преобразуем в массив и рассчитываем процент для каждой категории
+    return Object.keys(groupedData)
+      .map((category) => ({
+        category,
+        amount: groupedData[category].amount,
+        percentage: ((groupedData[category].amount / totalAmount) * 100).toFixed(2), // Рассчитываем процент
+      }))
+      .sort((a, b) => b.percentage - a.percentage); // Сортируем по убыванию процента
+  };
+
   // Анимация прогресс-баров
   useEffect(() => {
-    const data = filterTransactions(sortedData, isDaily);
+    const chartData = getChartData(data, isDaily);
     progressBarsRef.current.forEach((bar, index) => {
-      if (data.length > 0) {
-        const percentage = data[index].percentage;
+      if (chartData.length > 0 && chartData[index]) {
+        const percentage = chartData[index].percentage;
         bar.style.width = "0%"; // Начальная ширина
         setTimeout(() => {
           bar.style.width = `${percentage}%`; // Конечная ширина
         }, 100); // Задержка для плавного старта анимации
       }
     });
-  }, [sortedData, totalAmount]);
+  }, [data, isDaily]);
 
   function CurrentData() {
-    if (filterTransactions(sortedData, isDaily).length > 0) {
-      console.log("NO TRANS");
+    const chartData = getChartData(data, isDaily);
+
+    if (chartData.length > 0) {
       return (
         <div
           style={{
@@ -89,57 +116,52 @@ const ExpenseChart = ({ data, lStyle, isDaily }) => {
           }}
         >
           <ul className={lStyle}>
-            {filterTransactions(sortedData, isDaily).map((item, index) => {
-              if (sortedData.length > 0) {
-                // Выбираем цвет: для топовых категорий используем заданные цвета, для остальных — случайные
-                const color =
-                  index < topColors.length
-                    ? topColors[index]
-                    : getRandomColor();
+            {chartData.map((item, index) => {
+              // Выбираем цвет: для топовых категорий используем заданные цвета, для остальных — случайные
+              const color =
+                index < topColors.length ? topColors[index] : getRandomColor();
 
-                return (
-                  <li key={item.category} style={{ marginBottom: "20px" }}>
+              return (
+                <li key={item.category} style={{ marginBottom: "20px" }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      marginBottom: "5px",
+                    }}
+                  >
+                    <span>{item.category}</span>
+                    <span>
+                      {item.amount} RUB ({item.percentage}%)
+                    </span>
+                  </div>
+                  <div
+                    style={{
+                      width: "100%",
+                      height: "10px",
+                      backgroundColor: "#e0e0e0", // Цвет фона шкалы
+                      borderRadius: "5px",
+                      overflow: "hidden",
+                    }}
+                  >
                     <div
+                      ref={(el) => (progressBarsRef.current[index] = el)} // Сохраняем ссылку на прогресс-бар
                       style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        marginBottom: "5px",
+                        width: "0%", // Начальная ширина (будет изменена анимацией)
+                        height: "100%",
+                        backgroundColor: color, // Используем выбранный цвет
+                        borderRadius: "5px 5px 5px 5px", // Скругление только на левом конце
+                        transition: "width 1s ease-out", // Анимация изменения ширины
                       }}
-                    >
-                      <span>{item.category}</span>
-                      <span>
-                        {item.amount} RUB ({item.percentage}%)
-                      </span>
-                    </div>
-                    <div
-                      style={{
-                        width: "100%",
-                        height: "10px",
-                        backgroundColor: "#e0e0e0", // Цвет фона шкалы
-                        borderRadius: "5px",
-                        overflow: "hidden",
-                      }}
-                    >
-                      <div
-                        ref={(el) => (progressBarsRef.current[index] = el)} // Сохраняем ссылку на прогресс-бар
-                        style={{
-                          width: "0%", // Начальная ширина (будет изменена анимацией)
-                          height: "100%",
-                          backgroundColor: color, // Используем выбранный цвет
-                          borderRadius: "5px 5px 5px 5px", // Скругление только на левом конце
-                          transition: "width 1s ease-out", // Анимация изменения ширины
-                        }}
-                      />
-                    </div>
-                  </li>
-                );
-              }
+                    />
+                  </div>
+                </li>
+              );
             })}
           </ul>
         </div>
       );
     } else {
-      console.log("NO TRANS");
       return (
         <div
           style={{

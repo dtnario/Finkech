@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import AppRouter from './AppRouter';
 import { API_ADD_TRANSACTION, API_TRANSACTION_LIST } from './components/constants';
 import { API_ADD_ACCOUNT ,  API_ACCOUNT_LIST , API_ADD_USER} from './components/constants';
+import { valueOrDefault } from 'chart.js/helpers';
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem('token') || null);
@@ -19,10 +20,11 @@ function App() {
     setToken(token);
   };
 
-  const handleRegister = (token , accountName) => {
+  const handleRegister = async (token , accountName , accountValue) => {
+    console.log("FROM REGISTER: " + accountName)
     localStorage.setItem('token', token);
     setToken(token);
-    AddFirstAccount(token , accountName)
+    await AddFirstAccount(token , accountName , accountValue)
   };
 
   const setActiveAccount = (accountId , accountName) => {
@@ -47,22 +49,24 @@ function App() {
         }
   
         const data = await response.json();
-        
-        setActiveAccount(data.accountId , data.accountName)
+        console.log('REGISTER')
+        console.log(data)
+        setActiveAccount(data.account.id , data.account.name)
 
       } catch (err) {
         console.error(err);
       }
   };
 
-  const AddFirstAccount = async (token , accountName) => {
+  const AddFirstAccount = async (token , accountName , accountValue) => {
 
     const newAccount = {
       user_id: token,
-      name : accountName
+      name : accountName,
+      balance : accountValue
     };
     
-    addAccount(newAccount)
+    await addAccount(newAccount)
   };
 
   const handleLogout = () => {

@@ -33,9 +33,9 @@ const Register = ({ onRegister }) => {
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    localStorage.setItem("account", accountValue);
+    localStorage.setItem("accountValue", accountValue);
     localStorage.setItem("accountName", accountName);
-
+    console.log('NEW ACCOUNT' + accountName)
     try {
       const response = await fetch(API_AUTH_REGISTER, {
         method: "POST",
@@ -64,7 +64,7 @@ const Register = ({ onRegister }) => {
       }
 
       const data_login = await response_login.json();
-      onRegister(data_login.user_id, accountName);
+      onRegister(data_login.user_id, accountName , accountValue);
 
       navigate("/");
     } catch (err) {
@@ -256,7 +256,7 @@ const Register = ({ onRegister }) => {
                   <input
                     type="currency-val"
                     value={accountValue}
-                    onChange={(e) => setAccountValue(e.target.value)}
+                    onChange={(e) => setAccountValue(Number(e.target.value))}
                     placeholder="0"
                   />
                   <h1 className="currencyHeader">RUB</h1>

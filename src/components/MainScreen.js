@@ -69,35 +69,6 @@ const MainScreen = () => {
   );
   const [AccountNameIsFocused, setAccountNameIsFocused] = useState(false); // Состояние фокуса
 
-  const getChartData = (data) => {
-    const expenses = data.filter((transaction) => transaction.value < 0);
-
-    const groupedData = expenses.reduce((acc, transaction) => {
-      const { category, value, created_at } = transaction;
-
-      if (!acc[category]) {
-        acc[category] = {
-          totalAmount: 0,
-          timestamps: [], // Массив для хранения created_at
-        };
-      }
-
-      acc[category].totalAmount += Math.abs(value); // Суммируем значения
-      acc[category].timestamps.push(created_at); // Добавляем created_at в массив
-
-      return acc;
-    }, {});
-
-    // Преобразуем в массив для использования в графике
-    const chartData = Object.keys(groupedData).map((category) => ({
-      category,
-      amount: groupedData[category].totalAmount, // Суммарное значение
-      created_at: groupedData[category].timestamps, // Массив created_at
-    }));
-
-    return chartData;
-  };
-
   const handleIsDailyStats = (isDaily) => {
     setIsDailyStats(isDaily);
     localStorage.setItem("isDailyStats", isDaily);
@@ -125,7 +96,7 @@ const MainScreen = () => {
 
     const data = await response.json();
 
-    /*setInviteLink(data)*/
+    setInviteLink("http://158.160.52.121/invite?token="+data.link.token+"&account="+accountName)
   }
 
   const moveToSharing = () => {
@@ -165,6 +136,13 @@ const MainScreen = () => {
     if (!token) {
       navigate("/login");
     } else {
+
+      console.log('START CURR ACC ' + localStorage.getItem("account"))
+      console.log('START CURR ACC NAME ' + localStorage.getItem("accountName"))
+
+      if(localStorage.getItem("accountName") && !account) setAccountName(localStorage.getItem("accountName"));  
+      if(localStorage.getItem("account") && !accountName) setAccount(localStorage.getItem("account"));   
+
       fetchAccounts();
     }
   }, [token, navigate]);
@@ -505,14 +483,17 @@ const MainScreen = () => {
       setAccounts(data.accounts);
 
       console.log("ACCS: " + accounts[0]);
+      console.log('CURR ACC' + localStorage.getItem("account"))
+      console.log('CURR ACC NAME' + localStorage.getItem("accountName"))
 
       if (accounts[0]) {
-        if (!localStorage.getItem("account")) {
+        if (!account) {
+          console.log("ACCOUNT NOT NULL")
           localStorage.setItem("account", accounts[0].id);
           setActiveAccount(accounts[0].id);
         }
 
-        if (!localStorage.getItem("accountName")) {
+        if (!accountName) {
           localStorage.setItem("accountName", accounts[0].name);
           setAccountName(accounts[0].name);
         }
@@ -694,7 +675,7 @@ const MainScreen = () => {
                         className="currencyHeaderMain"
                         style={{
                           marginBottom: "16px",
-                          marginLeft: "0px",
+                          marginRight: "16px",
                           fontWeight: "500",
                         }}
                       >
@@ -712,7 +693,7 @@ const MainScreen = () => {
                       <div className="StatisticsCroppedContainer">
                         <ExpenseChart
                           isDaily={isDailyStats}
-                          data={getChartData(transactions)}
+                          data={transactions}
                           lStyle="listCropped"
                         />
                       </div>
@@ -775,7 +756,7 @@ const MainScreen = () => {
       case 4:
         return (
           <div className="Container">
-            <div class="BackButtonContainer">
+            <div className="BackButtonContainer">
               <div style={{ display: "flex" }}>
                 <button class="back-button" onClick={moveToMainWindow}>
                   <img
@@ -790,7 +771,7 @@ const MainScreen = () => {
                 <div className="StatisticsFullContainer">
                   <ExpenseChart
                     isDaily={isDailyStats}
-                    data={getChartData(transactions)}
+                    data={transactions}
                     lStyle="list"
                   />
                 </div>
@@ -805,8 +786,8 @@ const MainScreen = () => {
               <div class="inner" className="Container">
                 <div>
                   <div>
-                    <div class="container">
-                      <button class="back-button" onClick={moveToMainWindow}>
+                    <div className="container">
+                      <button className="back-button" onClick={moveToMainWindow}>
                         <img
                           src={BackButtonIcon} // URL вашей картинки
                           alt="icon"
@@ -826,7 +807,7 @@ const MainScreen = () => {
                         </h1>
                       </div>
 
-                      <div class="empty-back-button">&nbsp;</div>
+                      <div className="empty-back-button">&nbsp;</div>
                     </div>
                     <div style={{ marginBottom: "8px" }}></div>
                     <div>
@@ -854,7 +835,7 @@ const MainScreen = () => {
       case 6:
         return (
           <div className="container">
-            <div class="BackButtonContainer">
+            <div className="BackButtonContainer">
 
               <div className="StatisticsFullContainer">
                 <button class="back-button" onClick={moveToMainWindow}>

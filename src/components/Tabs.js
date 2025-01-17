@@ -1,27 +1,33 @@
-import React, { useState , useEffect } from 'react';
-import { API_ADD_TRANSACTION, API_TRANSACTION_LIST , API_ADD_ACCOUNT ,  API_ACCOUNT_LIST , API_ADD_USER} from './constants';
+import React, { useState, useEffect } from "react";
+import {
+  API_ADD_TRANSACTION,
+  API_TRANSACTION_LIST,
+  API_ADD_ACCOUNT,
+  API_ACCOUNT_LIST,
+  API_ADD_USER,
+} from "./constants";
 
 const Tabs = ({ UpdateTransactions }) => {
-  const [tabs, setTabs] = useState([
-  ]);
+  const [tabs, setTabs] = useState([]);
 
   const [activeTab, setActiveTab] = useState(0);
   const [dropdownOpen, setDropdownOpen] = useState(null);
-  const [account, setAccount] = useState(localStorage.getItem('account') || null);
-  const [token, setToken] = useState(localStorage.getItem('token') || null);
+  const [account, setAccount] = useState(
+    localStorage.getItem("account") || null
+  );
+  const [token, setToken] = useState(localStorage.getItem("token") || null);
 
   useEffect(() => {
-    fetchAccounts()
-    setActiveAccount(account)
+    fetchAccounts();
+    setActiveAccount(account);
   }, []);
 
   const AddAccount = async () => {
-
     const newAccount = {
       userId: token,
     };
-    
-    addAccount(newAccount)
+
+    addAccount(newAccount);
     /*
     const newTab = {
       id: localStorage.getItem('account'),
@@ -36,27 +42,26 @@ const Tabs = ({ UpdateTransactions }) => {
     */
   };
 
-
   const addAccount = async (account) => {
     try {
       const response = await fetch(API_ADD_ACCOUNT, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(account),
       });
 
       if (!response.ok) {
-        throw new Error('Ошибка при добавлении аккаунта');
+        throw new Error("Ошибка при добавлении аккаунта");
       }
 
       const data = await response.json();
-      
-      setActiveAccount(data.accountId)
 
-      await fetchAccounts()
+      setActiveAccount(data.accountId);
+
+      await fetchAccounts();
     } catch (err) {
       console.error(err);
     }
@@ -65,19 +70,19 @@ const Tabs = ({ UpdateTransactions }) => {
   const fetchAccounts = async () => {
     try {
       const body = {
-        userid: localStorage.getItem('token'),
+        userid: localStorage.getItem("token"),
       };
       const response = await fetch(API_ACCOUNT_LIST, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(body),
       });
 
       if (!response.ok) {
-        throw new Error('Ошибка при получении транзакций');
+        throw new Error("Ошибка при получении транзакций");
       }
 
       const data = await response.json();
@@ -87,7 +92,7 @@ const Tabs = ({ UpdateTransactions }) => {
         label: `Аккаунт ${account.accountId}`,
         content: `Содержимое аккаунта ${index + 1}`,
       }));
-      
+
       setTabs([...newTabs]);
     } catch (err) {
       console.error(err);
@@ -106,33 +111,42 @@ const Tabs = ({ UpdateTransactions }) => {
   };
 
   const setActiveAccount = (accountId) => {
-    localStorage.setItem('account', accountId);
-    setActiveTab(accountId)
-    setAccount(accountId)
-    UpdateTransactions()
+    localStorage.setItem("account", accountId);
+    setActiveTab(accountId);
+    setAccount(accountId);
+    UpdateTransactions();
   };
 
   return (
     <div>
-      <div style={{ display: 'flex', marginBottom: '10px' }}>
+      <div style={{ display: "flex", marginBottom: "10px" }}>
         {tabs.map((tab) => (
-          <div key={tab.id} style={{ position: 'relative', marginRight: '10px' }}>
+          <div
+            key={tab.id}
+            style={{ position: "relative", marginRight: "10px" }}
+          >
             <div
               onClick={() => setActiveAccount(tab.id)}
               style={{
-                padding: '10px',
-                cursor: 'pointer',
-                borderBottom: activeTab === tab.id ? '2px solid blue' : 'none',
+                padding: "10px",
+                cursor: "pointer",
+                borderBottom: activeTab === tab.id ? "2px solid blue" : "none",
               }}
             >
               {tab.label}
-            </div>       
+            </div>
           </div>
         ))}
-        <button onClick={AddAccount} style={{ marginLeft: '10px' , width : '64px' }}>
+        <button
+          onClick={AddAccount}
+          style={{ marginLeft: "10px", width: "64px" }}
+        >
           +
         </button>
-        <button onClick={fetchAccounts} style={{ marginLeft: '10px' , width : '64px' }}>
+        <button
+          onClick={fetchAccounts}
+          style={{ marginLeft: "10px", width: "64px" }}
+        >
           ↺
         </button>
       </div>

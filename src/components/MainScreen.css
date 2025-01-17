@@ -94,7 +94,7 @@ body {
 }
 
 .AccountStatsContainer {
-    height: 108px;
+    height: 146px;
     background-color: #fff; /* Белый фон */
     border-radius: 12px;
     text-align: center;
@@ -356,12 +356,15 @@ body {
 }
 
 .container {
-    width: 400px; /* Фиксированная ширина контейнера */
+    width: 100%; /* Фиксированная ширина контейнера */
     padding: 16px;
     font-family: Arial, sans-serif;
   }
   
   .list {
+    text-align: center;
+    justify-content: center;
+    align-items: center;
     list-style: none; /* Убираем маркеры списка */
     padding: 0; /* Убираем внутренние отступы */
     margin: 0; /* Убираем внешние отступы */
@@ -498,6 +501,12 @@ body {
     .MainContainer{
         width: 400px;
     }
+    .container{
+        width: 400px;
+    }
+    .StatisticsFullContainer{
+        width: 320px;
+    }
   }
 
   @media (max-width: 500px) {
@@ -508,6 +517,9 @@ body {
       gap: 8px;
     }
     .MainContainer{
+        width: 300px;
+    }
+    .container{
         width: 300px;
     }
     .NavPanelButton{
@@ -539,6 +551,9 @@ body {
     }
     .listCropped{
         width: 272px;
+    }
+    .StatisticsFullContainer{
+        width: 300px;
     }
   }
 

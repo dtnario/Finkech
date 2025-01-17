@@ -1,7 +1,7 @@
-import React, { useRef } from 'react';
-import './GlowButton.css';
+import React, { useRef } from "react";
+import "./GlowButton.css";
 
-const AddTransactionButton = ({text , onClick}) => {
+const AddTransactionButton = ({ text, onClick }) => {
   const buttonRef = useRef(null);
 
   const handleMouseMove = (e) => {
@@ -10,8 +10,8 @@ const AddTransactionButton = ({text , onClick}) => {
     const x = e.clientX - rect.left; // Позиция курсора относительно кнопки по X
     const y = e.clientY - rect.top; // Позиция курсора относительно кнопки по Y
 
-    button.style.setProperty('--x', `${x}px`);
-    button.style.setProperty('--y', `${y}px`);
+    button.style.setProperty("--x", `${x}px`);
+    button.style.setProperty("--y", `${y}px`);
   };
 
   return (

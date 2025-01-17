@@ -1,5 +1,5 @@
 // src/constants.js
-export const API_BASE_URL = 'http://158.160.52.121:1337';
+export const API_BASE_URL = "http://158.160.52.121:1337";
 
 export const API_AUTH_LOGIN = `${API_BASE_URL}/user/login`;
 export const API_AUTH_REGISTER = `${API_BASE_URL}/user`;

@@ -1,10 +1,26 @@
 import React from "react";
 import StarIcon from "../img/star.png"; // Импорт картинки
 import AngleIcon from "../img/u_angle-right-b.png";
+import GroceriesIcon from "../img/groceries.jpg";
+import TaxiIcon from "../img/taxi.jpg";
+import HouseIcon from "../img/house.jpg";
+import RestaurantIcon from "../img/restaurant.jpg";
+
+const categoryIcons = {
+  'grocery': GroceriesIcon,
+  'taxi': TaxiIcon,
+  'home': HouseIcon,
+  'restaurant': RestaurantIcon
+};
 
 const Transaction = ({ transaction, currencySymbol }) => {
   const type = transaction.value < 0 ? "Расход" : "Доход";
   const isIncome = transaction.value > 0;
+  
+  const getIconForCategory = (category) => {
+    return categoryIcons[category] || StarIcon;
+  };
+
   return (
     <li className={transaction.value < 0 ? "minus" : "plus"}>
       <div>
@@ -15,7 +31,7 @@ const Transaction = ({ transaction, currencySymbol }) => {
         >
           <div className="ListButtonGrid">
             <div className="ImgBox">
-              <img src={StarIcon} alt="icon" width={36} height={36} />
+              <img src={getIconForCategory(transaction.category)} alt="icon" width={36} height={36} />
             </div>
 
             <div className="MainListVerticalGrid">

@@ -233,7 +233,7 @@ body {
     align-items:top;
     width: 100%;
     display: grid;
-    grid-template-columns: 5% 35% 20% 30% 10%; 
+    grid-template-columns: 5% 40% 20% 30% 10%; 
     justify-content: center;
     align-items: center;
     text-align: center;

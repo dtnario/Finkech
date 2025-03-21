@@ -8,6 +8,7 @@ import TransactionFullList from "./TransactionFullList";
 import Balance from "./Balance";
 import AddTransactionButton from "./GlowButton";
 import ExpenseChart from "./ExpenseChart";
+import { QRCodeSVG } from 'qrcode.react';
 import {
   API_GET_ACCOUNT,
   API_GEN_LINK,
@@ -29,6 +30,7 @@ import TransactionsPieChart from "./PieDiagram";
 import AccountList from "./AccountList";
 import ListButton from "./ListButton";
 import PeriodToggle from "./PeriodToggle";
+import Toggle from "./Toggle";
 import InviteComponent from "./InvitePage";
 
 const MainScreen = () => {
@@ -57,7 +59,7 @@ const MainScreen = () => {
   );
   const [newAccountName, setNewAccountName] = useState("");
   const [accounts, setAccounts] = useState([]);
-
+  const [isExpense, setIsExpense] = useState(true); // Добавляем состояние для типа транзакций
   const [currency, setCurrency] = useState("RUB"); // Добавляем состояние для валюты
   const [balance, setBalance] = useState(0); // Добавляем состояние для валюты
   const navigate = useNavigate();
@@ -629,7 +631,7 @@ const MainScreen = () => {
 
                     <button
                       className="AddAccountButton"
-                      onClick={moveToAddAccountWindow}
+                      onClick={moveToSharing}
                     >
                       <div
                         style={{
@@ -648,7 +650,7 @@ const MainScreen = () => {
                           height: "32px",
                         }}
                       >
-                        AddAccount
+                        Share
                       </div>
                     </button>
                   </div>
@@ -685,9 +687,14 @@ const MainScreen = () => {
                         isDailyStats={isDailyStats}
                         setIsDailyStats={handleIsDailyStats}
                       ></PeriodToggle>
+                      <Toggle
+                        isIncome={!isExpense}
+                        setIsIncome={(value) => setIsExpense(!value)}
+                      />
                       <TransactionsPieChart
                         transactions={transactions}
                         isDaily={isDailyStats}
+                        isExpense={isExpense}
                       />
                       <div className="VerticalGridCentered">
                       <div className="StatisticsCroppedContainer">
@@ -695,6 +702,7 @@ const MainScreen = () => {
                           isDaily={isDailyStats}
                           data={transactions}
                           lStyle="listCropped"
+                          isExpense={isExpense}
                         />
                       </div>
                       </div>
@@ -769,10 +777,19 @@ const MainScreen = () => {
                 </button>
 
                 <div className="StatisticsFullContainer">
+                  <PeriodToggle
+                    isDailyStats={isDailyStats}
+                    setIsDailyStats={handleIsDailyStats}
+                  ></PeriodToggle>
+                  <Toggle
+                    isIncome={!isExpense}
+                    setIsIncome={(value) => setIsExpense(!value)}
+                  />
                   <ExpenseChart
                     isDaily={isDailyStats}
                     data={transactions}
                     lStyle="list"
+                    isExpense={isExpense}
                   />
                 </div>
               </div>
@@ -876,8 +893,8 @@ const MainScreen = () => {
                   className="StatisticsCroppedContainer"
                 >
                   <ListButton
-                    text="Sharing"
-                    onClick={moveToSharing}
+                    text="Add Account"
+                    onClick={moveToAddAccountWindow}
                     data={[]}
                   ></ListButton>
                   <ListButton
@@ -892,34 +909,51 @@ const MainScreen = () => {
           </body>
         );
         case 8:
-          return(
+          return (
             <body>
              <button class="back-button" onClick={moveToMainWindow}>
                   <img
-                    src={BackButtonIcon} // URL вашей картинки
+                    src={BackButtonIcon}
                     alt="icon"
-                    style={{ }}
+                    style={{ paddingLeft: "0px" }}
                     width={10}
                     height={10}
                   />
             </button>
             <div class="outer" className="LoginBubble">
               <div class="inner" className="Container">
-                <div className="VerticalGridCentered">
-                  
-                  <h1 style={{ paddingBottom: "48px" }} className="mainHeader">
-                    Invite link for account: {accountName}
-                  </h1>
-                  <h1 style={{ paddingBottom: "48px" , fontSize:'16px' }} 
-                  className="currencyHeader">
-                    {inviteLink}</h1>                         
-                  <button className={"LoginBubbleButton"} onClick={handleCopy
-                  }>
-                      Copy</button>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', padding: '16px' }}>
+                  <div style={{ textAlign: 'center', width: '100%', maxWidth: '400px' }}>
+                    <h1 style={{ paddingBottom: "24px" }} className="mainHeader">
+                      Invite to account:
+                    </h1>
+                    <h1 style={{ paddingBottom: "24px" }} className="dopHeader">
+                      {accountName}
+                    </h1>
+                    <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '24px' }}>
+                      <QRCodeSVG 
+                        value={inviteLink}
+                        size={200}
+                        level="H"
+                        includeMargin={true}
+                        imageSettings={{
+                          src: StarIcon,
+                          x: undefined,
+                          y: undefined,
+                          height: 24,
+                          width: 24,
+                          excavate: true,
+                        }}
+                      />
+                    </div>
+                    <button onClick={handleCopy} className="LoginBubbleButton">
+                      Copy Link
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
-          </body>
+            </body>
           )
     }
   }

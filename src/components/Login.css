@@ -135,6 +135,13 @@ body {
     font-size: 24px; /* Размер шрифта */
     margin: 0 0 0 0; /* Уменьшаем отступы: сверху 0, справа 0, снизу 10px, слева 0 */
   }
+
+  .dopHeader {
+    font-family: 'Montserrat', sans-serif;
+    color: #6b6b6b; /* Темно-серый текст */
+    font-size: 24px; /* Размер шрифта */
+    margin: 0 0 0 0; /* Уменьшаем отступы: сверху 0, справа 0, снизу 10px, слева 0 */
+  }
   
   .currencyHeader {
     font-family: 'Montserrat', sans-serif;

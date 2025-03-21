@@ -4,7 +4,7 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const TransactionsPieChart = ({ transactions, isDaily }) => {
+const TransactionsPieChart = ({ transactions, isDaily, isExpense }) => {
   const [chartData, setChartData] = useState(null);
   const totalSumRef = useRef(0); // Используем useRef для хранения totalSum
   const chartRef = useRef(null); // Ссылка на диаграмму
@@ -22,6 +22,12 @@ const TransactionsPieChart = ({ transactions, isDaily }) => {
       const transactionMonth = transactionDate.getMonth() + 1;
       const transactionDay = transactionDate.getDate();
 
+      // Фильтруем по типу транзакции (расход/доход)
+      const isTransactionExpense = transaction.value < 0;
+      if (isExpense !== isTransactionExpense) {
+        return false;
+      }
+
       if (isDaily) {
         return (
           transactionYear === currentYear &&
@@ -36,12 +42,12 @@ const TransactionsPieChart = ({ transactions, isDaily }) => {
     });
   };
 
-  // Обновляем periodTransactions при изменении isDaily
+  // Обновляем periodTransactions при изменении isDaily или isExpense
   useEffect(() => {
-    console.log("IS DAILY CHANGED");
+    console.log("IS DAILY OR TYPE CHANGED");
     const filteredTransactions = filterTransactions(transactions, isDaily);
     setPeriodTransactions(filteredTransactions);
-  }, [isDaily, transactions]);
+  }, [isDaily, isExpense, transactions]);
 
   // Обновляем данные диаграммы и totalSum
   useEffect(() => {
@@ -60,19 +66,19 @@ const TransactionsPieChart = ({ transactions, isDaily }) => {
     }, {});
 
     const sortedCategories = Object.entries(categories)
-      .sort(([, valueA], [, valueB]) => valueA - valueB)
-      .filter(([, value]) => value < 0);
+      .sort(([, valueA], [, valueB]) => isExpense ? valueA - valueB : valueB - valueA)
+      .filter(([, value]) => isExpense ? value < 0 : value > 0);
 
     const topCategories = sortedCategories.slice(0, 4);
     const otherCategories = sortedCategories.slice(4);
     const otherSum = otherCategories.reduce((sum, [, value]) => sum + value, 0);
 
-    const totalNegativeSum = Object.values(categories)
-      /*.filter((value) => value < 0)*/
+    const totalSum = Object.values(categories)
+      .filter((value) => isExpense ? value < 0 : value > 0)
       .reduce((sum, value) => sum + value, 0);
 
-    console.log("TOTAL:", totalNegativeSum);
-    totalSumRef.current = totalNegativeSum; // Обновляем значение в useRef
+    console.log("TOTAL:", totalSum);
+    totalSumRef.current = totalSum;
 
     if (sortedCategories.length > 4) {
       const data = {
@@ -80,7 +86,7 @@ const TransactionsPieChart = ({ transactions, isDaily }) => {
         datasets: [
           {
             label: "Сумма по категориям",
-            data: [...topCategories.map(([, value]) => value), otherSum],
+            data: [...topCategories.map(([, value]) => Math.abs(value)), Math.abs(otherSum)],
             backgroundColor: [
               "#DFBBFF",
               "#FFD6B0",

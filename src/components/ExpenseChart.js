@@ -13,15 +13,15 @@ const getRandomColor = () => {
   return color;
 };
 
-const ExpenseChart = ({ data, lStyle, isDaily }) => {
+const ExpenseChart = ({ data, lStyle, isDaily, isExpense }) => {
   // Ref для хранения ссылок на прогресс-бары
   const progressBarsRef = useRef([]);
 
   // Обновляем periodTransactions при изменении isDaily
   useEffect(() => {
-    console.log("IS DAILY CHANGED EXPENSE");
+    console.log("IS DAILY OR TYPE CHANGED EXPENSE");
     console.log(isDaily);
-  }, [isDaily, data]);
+  }, [isDaily, isExpense, data]);
 
   // Фильтрация транзакций по дате (дневной/месячный)
   const filterTransactions = (transactions, isDaily) => {
@@ -35,6 +35,12 @@ const ExpenseChart = ({ data, lStyle, isDaily }) => {
       const transactionYear = transactionDate.getFullYear();
       const transactionMonth = transactionDate.getMonth() + 1;
       const transactionDay = transactionDate.getDate();
+
+      // Фильтруем по типу транзакции (расход/доход)
+      const isTransactionExpense = transaction.value < 0;
+      if (isExpense !== isTransactionExpense) {
+        return false;
+      }
 
       if (isDaily) {
         return (

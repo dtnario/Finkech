@@ -704,14 +704,15 @@ const MainScreen = () => {
                           lStyle="listCropped"
                           isExpense={isExpense}
                         />
-                      </div>
-                      </div>
                       <button
                         onClick={moveToStatisticsList}
                         className="hrefTextMain"
                       >
                         Show more
                       </button>
+                      </div>
+                      </div>
+
                     </div>
                   </div>
                 </div>
@@ -765,10 +766,10 @@ const MainScreen = () => {
         return (
           <div className="Container">
             <div className="BackButtonContainer">
-              <div style={{ display: "flex" }}>
+              <div style={{ display: "flex", width: "100%" }}>
                 <button class="back-button" onClick={moveToMainWindow}>
                   <img
-                    src={BackButtonIcon} // URL вашей картинки
+                    src={BackButtonIcon}
                     alt="icon"
                     style={{ marginRight: "10px" }}
                     width={10}
@@ -776,21 +777,23 @@ const MainScreen = () => {
                   />
                 </button>
 
-                <div className="StatisticsFullContainer">
-                  <PeriodToggle
-                    isDailyStats={isDailyStats}
-                    setIsDailyStats={handleIsDailyStats}
-                  ></PeriodToggle>
-                  <Toggle
-                    isIncome={!isExpense}
-                    setIsIncome={(value) => setIsExpense(!value)}
-                  />
-                  <ExpenseChart
-                    isDaily={isDailyStats}
-                    data={transactions}
-                    lStyle="list"
-                    isExpense={isExpense}
-                  />
+                <div className="StatisticsFullContainer" style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                  <div style={{ maxWidth: "600px", display: "flex", flexDirection: "column", alignItems: "center", gap: "16px" }}>
+                    <PeriodToggle
+                      isDailyStats={isDailyStats}
+                      setIsDailyStats={handleIsDailyStats}
+                    />
+                    <Toggle
+                      isIncome={!isExpense}
+                      setIsIncome={(value) => setIsExpense(!value)}
+                    />
+                    <ExpenseChart
+                      isDaily={isDailyStats}
+                      data={transactions}
+                      lStyle="list"
+                      isExpense={isExpense}
+                    />
+                  </div>
                 </div>
               </div>
             </div>

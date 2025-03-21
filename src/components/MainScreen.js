@@ -704,15 +704,15 @@ const MainScreen = () => {
                           lStyle="listCropped"
                           isExpense={isExpense}
                         />
-                      <button
+                      </div>
+                       <button
                         onClick={moveToStatisticsList}
                         className="hrefTextMain"
-                      >
+                       >
                         Show more
                       </button>
+                    
                       </div>
-                      </div>
-
                     </div>
                   </div>
                 </div>
